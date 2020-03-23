@@ -1,0 +1,49 @@
+<div class="card">
+  <div class="card-header">
+    <h1>{{ pageTitle }}</h1>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-2">Filter By:</div>
+      <div class="col-md-4">
+        <input type="text" [(ngModel)]="listFilter" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Filtered by: {{ listFilter }}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table" *ngIf="products && products.length">
+      <thead>
+        <tr>
+          <th>
+            <button class="btn btn-primary" (click)="toggleImage()">{{showImage ? "Hide Image" : "Show Image"}}</button>
+          </th>
+          <th>Product</th>
+          <th>Code</th>
+          <th>Available</th>
+          <th>Price</th>
+          <th>5 Star Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of filteredProduct">
+          <td> <img class="product-image" [src]="product.imageUrl" alt="product image" [title]="product.productName"
+              *ngIf="showImage">
+          </td>
+          <td><a [routerLink]="['/products', product.productId]">{{ product.productName }}</a></td>
+          <td>{{ product.productCode | lowercase | convertToSpace:'-' }}</td>
+          <td>{{ product.releaseDate }}</td>
+          <td>{{ product.price | currency}}</td>
+          <td><app-star 
+            [rating]="product.starRating"
+            (ratingClick)="onRatingClick($event)"
+            ></app-star></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
